@@ -9,16 +9,16 @@ vue作为前端框架，axios作为http请求框架，springboot用作后端框�
 
 ### 主界面
 
-![](https://images.cnblogs.com/cnblogs_com/Rasang/1337300/o_210617023910Snipaste_2021-06-17_10-37-44.png)
+![](https://github.com/rasang/QuestionStation/blob/main/images/Snipaste_2021-06-17_10-37-44.png?raw=true)
 
 ### 查看问题界面
 
-![](https://images.cnblogs.com/cnblogs_com/Rasang/1337300/o_210617023916Snipaste_2021-06-17_10-38-04.png)
+![](https://github.com/rasang/QuestionStation/blob/main/images/Snipaste_2021-06-17_10-38-04.png?raw=true)
 
 ### 个人信息界面
 
-![](https://images.cnblogs.com/cnblogs_com/Rasang/1337300/o_210617023921Snipaste_2021-06-17_10-38-36.png)
+![](https://github.com/rasang/QuestionStation/blob/main/images/Snipaste_2021-06-17_10-38-36.png?raw=true)
 
 ### 编辑问题界面
 
-![](https://images.cnblogs.com/cnblogs_com/Rasang/1337300/o_210617023926Snipaste_2021-06-17_10-38-47.png)
+![](https://github.com/rasang/QuestionStation/blob/main/images/Snipaste_2021-06-17_10-38-47.png?raw=true)
