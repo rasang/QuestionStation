@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.student.questions.mapper.AnswerMapper">
+    <resultMap id="AnswersResultMap" type="com.student.questions.entity.Answer">
+        <result column="answer_id" property="answerId" jdbcType="INTEGER"/>
+        <result column="question_id" property="questionId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="answer_details" property="answerDetails" jdbcType="VARCHAR"/>
+        <result column="last_answer_date" property="answerDate" jdbcType="TIMESTAMP"/>
+        <result column="answer_blocked" property="blocked" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="selectAnswerByUserId" resultMap="AnswersResultMap">
+        SELECT * from answers where user_id = #{userId} ORDER BY last_answer_date DESC;
+    </select>
+    <select id="selectAnswerByQuestionId" resultMap="AnswersResultMap">
+        SELECT * from answers where question_id = #{questionId} and (answer_blocked=0 or user_id=#{userId}) ORDER BY last_answer_date DESC;
+    </select>
+    
+    <select id="selectAnswer" resultMap="AnswersResultMap">
+        SELECT * from answers WHERE answer_blocked = #{blocked} ORDER BY last_answer_date DESC LIMIT #{offset}, #{count};
+    </select>
+
+    <select id="selectAnswerWithKey" resultMap="AnswersResultMap">
+        SELECT * from answers where answer_details like #{key} AND answer_blocked = #{blocked} ORDER BY last_answer_date DESC LIMIT #{offset}, #{count};
+    </select>
+
+    <select id="selectAnswerCount" resultType="Integer">
+        SELECT count(*) from answers WHERE answer_blocked = #{blocked} ORDER BY last_answer_date DESC;
+    </select>
+
+    <select id="selectAnswerWithKeyCount" resultType="Integer">
+        SELECT count(*) from answers where answer_details like #{key} AND answer_blocked = #{blocked} ORDER BY last_answer_date DESC;
+    </select>
+
+    <insert id="insertAnswer">
+        INSERT INTO answers (question_id, user_id, answer_details) values (#{questionId}, #{userId}, #{answerDetails});
+    </insert>
+
+    <delete id="deleteAnswerByAnswerId">
+        delete from answers where user_id = #{userId} and answer_id = #{answerId};
+    </delete>
+
+    <update id="updateAnswer">
+        update answers set answer_details = #{answerDetails}, last_answer_date = CURRENT_TIMESTAMP where user_id = #{userId} and answer_id = #{answerId};
+    </update>
+
+    <update id="updateAnswerBlock">
+        update answers set answer_blocked = #{blocked} where answer_id = #{answerId};
+    </update>
+    
+</mapper>

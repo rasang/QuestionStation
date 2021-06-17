@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.student.questions.mapper.QuestionMapper">
+    <resultMap id="QuestionResultMap" type="com.student.questions.entity.Question">
+        <result column="question_id" property="questionId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="question_title" property="questionTitle" jdbcType="VARCHAR"/>
+        <result column="question_details" property="questionDetails" jdbcType="VARCHAR"/>
+        <result column="last_answer_date" property="lastAnswerDate" jdbcType="TIMESTAMP"/>
+        <result column="question_solved" property="solved" jdbcType="INTEGER"/>
+        <result column="question_blocked" property="blocked" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="selectQuestion" resultMap="QuestionResultMap">
+        SELECT * FROM questions WHERE question_blocked = 0 ORDER BY last_answer_date DESC LIMIT #{offset}, #{count};
+    </select>
+    <select id="selectQuestionWithKey" resultMap="QuestionResultMap">
+        SELECT * FROM questions WHERE question_blocked = 0 AND (question_title like #{key} OR question_details like #{key}) ORDER BY last_answer_date DESC LIMIT #{offset}, #{count};
+    </select>
+    <select id="selectQuestionCount" resultType="Integer">
+        SELECT count(*) FROM questions WHERE question_blocked = 0 ORDER BY last_answer_date DESC;
+    </select>
+    <select id="selectQuestionWithKeyCount" resultType="Integer">
+        SELECT count(*) FROM questions WHERE question_blocked = 0 AND (question_title like #{key} OR question_details like #{key}) ORDER BY last_answer_date DESC;
+    </select>
+    <select id="selectQuestionWithUserId" resultMap="QuestionResultMap">
+        SELECT * FROM questions WHERE question_blocked = 0 OR user_id = #{userId} ORDER BY last_answer_date DESC LIMIT #{offset}, #{count};
+    </select>
+    <select id="selectQuestionWithUserIdCount" resultType="Integer">
+        SELECT count(*) FROM questions WHERE question_blocked = 0 OR user_id = #{userId} ORDER BY last_answer_date DESC;
+    </select>
+    <select id="selectQuestionById" resultMap="QuestionResultMap">
+        SELECT * from questions where question_id = #{questionId};
+    </select>
+    <select id="selectBlockedQuestion" resultMap="QuestionResultMap">
+        SELECT * FROM questions WHERE question_blocked = 1 ORDER BY last_answer_date DESC LIMIT #{offset}, #{count};
+    </select>
+    <select id="selectBlockedQuestionWithKey" resultMap="QuestionResultMap">
+        SELECT * FROM questions WHERE question_blocked = 1 and (question_details like #{key} or question_title like #{key}) ORDER BY last_answer_date DESC LIMIT #{offset}, #{count};
+    </select>
+    <select id="selectBlockedQuestionCount" resultType="Integer">
+        SELECT count(*) FROM questions WHERE question_blocked = 1 ORDER BY last_answer_date DESC;
+    </select>
+    <select id="selectBlockedQuestionWithKeyCount" resultType="Integer">
+        SELECT count(*) FROM questions WHERE question_blocked = 1 and (question_details like #{key} or question_title like #{key}) ORDER BY last_answer_date DESC;
+    </select>
+    <insert id="insertQuestion">
+        INSERT INTO questions (user_id, question_title, question_details) values (#{userId}, #{questionTitle}, #{questionDetails});
+    </insert>
+    <update id="updateQuestion">
+        UPDATE questions SET question_title = #{title}, question_details = #{details} WHERE question_id = #{questionId} AND user_id = #{userId};
+    </update>
+    <update id="updateQuestionSolved">
+        UPDATE questions SET question_solved = #{solved} WHERE question_id = #{questionId} AND user_id = #{userId};
+    </update>
+    <update id="updateQuestionBlocked">
+        UPDATE questions SET question_blocked = #{blocked} WHERE question_id = #{questionId};
+    </update>
+    <select id="selectQuestionByUserId" resultMap="QuestionResultMap">
+        SELECT * FROM questions where user_id = #{userId} ORDER BY last_answer_date DESC;
+    </select>
+</mapper>
